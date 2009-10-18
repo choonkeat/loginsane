@@ -13,7 +13,7 @@ module Auth
       logger.debug "session[:request_token] = #{session[:request_token].inspect}"
       session[:request_token].consumer = twitter_get_consumer
       access_token = session[:request_token].get_access_token(:oauth_verifier => params[:oauth_verifier])
-      raw    = Hash.from_xml(access_token.get("/account/verify_credentials.xml").body)
+      raw  = Hash.from_xml(access_token.get("/account/verify_credentials.xml").body)
       hash = {
         :providerName      => "twitter",
         :identifier        => raw['user']['id'],
