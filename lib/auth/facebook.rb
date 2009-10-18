@@ -28,6 +28,10 @@ module Auth
         }
         return_to_service_callback(hash)
       end
+    rescue Facebooker::Session::SessionExpired
+      # not sure how to pre-empt this: <fb:login-button/> screw when session is
+      # expired elsewhere. the best we can do now is to re-display the login options form
+      redirect_to :action => "form", :id => @service.site.key, :return_url => params[:return_url]
     end
 
     # no links to this at the moment
