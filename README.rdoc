@@ -1,12 +1,12 @@
-= loginsane
+= Loginsane - Self-hosted, Open Source, Authentication Server
 
 Instead of adding various client libraries to keep up with growing number of identity services, an alternative approach is to keep the client code small, simple and consistent. i.e. leave it to a separate authentication server to manage integration of external authentication services.
 
 Inspired by RPX, Loginsane is a host-it-yourself solution. When new services are added to loginsane codebase, just update. No code change.
 
-= How it works
+== How it works
 
-1. Configure a site here & add services to it (e.g. Facebook Connect, Twitter)
+1. Configure a site & add services to it (e.g. Facebook Connect, Twitter)
 2. Copy your assigned embed code and paste it on your front page
 3. The embed code will display a list of login options to visitors on your site
 4. A visitor clicking on an option will be taken to the choice provider for authentication (e.g. facebook.com)
@@ -23,13 +23,13 @@ Inspired by RPX, Loginsane is a host-it-yourself solution. When new services are
 
 8. Based on the "id" in the downloaded profile, you can decide to create a session, login the visitor or register as a new member. Basically, what you do from here onwards is out of scope of this app.
 
-= Dependencies
+== Dependencies
 
 facebooker gem (1.0.54) and oauth gem (0.3.6)
 
   sudo gem install facebooker oauth
   
-= Install
+== Install
 
 1. Copy "config/database.yml.template" to "config/database.yml" (defaults to sqlite3, edit to customize)
 2. Execute:
@@ -41,6 +41,7 @@ facebooker gem (1.0.54) and oauth gem (0.3.6)
 3. Point your browser to to http://localhost:3000/
 
 NOTE 1: For Facebook connect & Twitter to actually work, you'd need a publicly hostname instead of localhost:3000 (see http://rfacebook.rubyforge.org/tunnel.html )
+
 NOTE 2: You would probably want to protect access to your loginsane server (services and sites controllers) at some point in time.
 
 == License
