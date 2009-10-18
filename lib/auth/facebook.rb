@@ -4,7 +4,7 @@ module Auth
   module Facebook
     def self.included(base)
       base.class_eval do
-        before_filter :set_facebook_session
+        before_filter :set_p3p_header, :set_facebook_session
         helper_method :facebook_session
       end
     end
@@ -35,6 +35,12 @@ module Auth
       session[:facebook_session] = nil
       @callback_url = params[:return_url]
       render :action => 'return_to_service_callback', :layout => false
+    end
+
+    # regarding iframes, cookies, safari & ie6
+    # see http://groups.google.com/group/facebooker/browse_thread/thread/55743ca4b224065e
+    def set_p3p_header
+      response.headers['P3P'] = 'CP="CAO PSA OUR"'
     end
   end
 end
