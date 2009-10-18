@@ -10,4 +10,7 @@
     var child = window.open(anchor.href, 'loginsane','toolbar=0,status=0,width=800,height=600');
     if (! child) window.top.location.href = anchor.href; // blocked popup
   });
+  function redirect_to(url) {
+    window.top.location.href = url;
+  }
 </script>

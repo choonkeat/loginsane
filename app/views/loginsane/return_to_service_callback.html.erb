@@ -6,12 +6,15 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>Loginsane - Self-hosting, Open Source, Authentication Server</title>
   <script type="text/javascript">
-  try {
-    window.opener.top.location.href = <%= @callback_url.inspect %>;
-    window.close();
-  } catch (e) {
-    window.top.location.href = <%= @callback_url.inspect %>;
-  }
+  (function(url, opener) {
+    var wnd = opener || window;
+    if (wnd.redirect_to) {
+      wnd.redirect_to(url);
+    } else {
+      wnd.top.location.href = url;
+    }
+    if (opener) window.close();
+  })(<%= @callback_url.inspect %>, window.opener);
   </script>
 </head>
 </html>
