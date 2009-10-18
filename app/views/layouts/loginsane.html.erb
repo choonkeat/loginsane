@@ -9,10 +9,8 @@
   <%= @service ? "<style>#{@service.site.css}</style>" : stylesheet_link_tag('loginsane') %>
 </head>
 <body>
-<% @service && Facebooker.with_application(@service.key) do %>
-  <%= fb_connect_javascript_tag %>
-  <%= init_fb_connect "XFBML", :js => :jquery %>
-<% end %>
+<%= fb_connect_javascript_tag %>
+<%= init_fb_connect "XFBML", :js => :jquery %>
 <%= yield %>
 </body>
 </html>

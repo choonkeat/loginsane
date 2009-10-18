@@ -4,34 +4,54 @@ module Auth
   module Facebook
     def self.included(base)
       base.class_eval do
+        around_filter :set_current_facebook_application
         before_filter :set_p3p_header, :set_facebook_session
         helper_method :facebook_session
       end
     end
 
-    def facebook_callback
-      Facebooker.with_application(@service.key) do
-        create_facebook_session if facebook_session.blank?
-        logger.debug "facebook_session = #{facebook_session.inspect}"
-        logger.debug "facebook_session.user = #{facebook_session.user.inspect}"
-        hash = {
-          :providerName      => "facebook",
-          :identifier        => facebook_session.user.uid,
-          :displayName       => facebook_session.user.name,
-          :preferredUsername => facebook_session.user.name && facebook_session.user.name.to_s.gsub(/\W+/, ''),
-          :utcOffsetSeconds  => facebook_session.user.timezone && (facebook_session.user.timezone.to_f * 3600).to_i,
-          :url               => facebook_session.user.profile_url,
-          :photo             => facebook_session.user.pic_big || facebook_session.user.pic_square || facebook_session.user.pic_small,
-          :location          => facebook_session.user.hometown_location,
-          :email             => facebook_session.user.proxied_email,
-          :raw               => ::Facebooker::User::FIELDS.inject({}) {|sum,key| sum.merge(key => facebook_session.user.send(key)) },
-        }
-        return_to_service_callback(hash)
+    def set_current_facebook_application(&block)
+      if @service
+        Facebooker.with_application(@service.key, &block)
+      else
+        logger.info "no current_facebook_application!"
+        yield
       end
+    end
+
+    def facebook_callback
+      create_facebook_session if facebook_session.blank?
+      return js_redirect_login if facebook_session.blank?
+      logger.debug "facebook_session = #{facebook_session.inspect}"
+      logger.debug "facebook_session.user = #{facebook_session.user.inspect}"
+      hash = {
+        :providerName      => "facebook",
+        :identifier        => facebook_session.user.uid,
+        :displayName       => facebook_session.user.name,
+        :preferredUsername => facebook_session.user.name && facebook_session.user.name.to_s.gsub(/\W+/, ''),
+        :utcOffsetSeconds  => facebook_session.user.timezone && (facebook_session.user.timezone.to_f * 3600).to_i,
+        :url               => facebook_session.user.profile_url,
+        :photo             => facebook_session.user.pic_big || facebook_session.user.pic_square || facebook_session.user.pic_small,
+        :location          => facebook_session.user.hometown_location,
+        :email             => facebook_session.user.proxied_email,
+        :raw               => ::Facebooker::User::FIELDS.inject({}) {|sum,key| sum.merge(key => facebook_session.user.send(key)) },
+      }
+      return_to_service_callback(hash)
     rescue Facebooker::Session::SessionExpired
-      # not sure how to pre-empt this: <fb:login-button/> screw when session is
-      # expired elsewhere. the best we can do now is to re-display the login options form
-      redirect_to :action => "form", :id => @service.site.key, :return_url => params[:return_url]
+      logger.warn $!; logger.warn $!.backtrace.first
+      # rid the bad cookies
+      session[:facebook_session] = nil
+      cookies.keys.inject(Regexp.new(@service.key)) do |regexp, key|
+        cookies.delete(key) if regexp.match(key)
+        regexp
+      end
+      return js_redirect_login
+    end
+
+    def js_redirect_login
+      javascript_code = "<script>window.top.location.href = '#{Facebooker.login_url_base}&fbconnect=true&return_session=false&next=#{URI.escape(callback_url_for(@service))}';</script>"
+      logger.debug "js_redirect_login: #{javascript_code}"
+      render :text => javascript_code
     end
 
     # no links to this at the moment

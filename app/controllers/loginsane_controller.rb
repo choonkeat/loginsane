@@ -1,18 +1,14 @@
 class LoginsaneController < ApplicationController
+  before_filter :set_service, :except => [:form, :embed]
+  before_filter :set_site_and_service, :only => [:form, :embed]
   include Auth::Twitter
   include Auth::Facebook
-  before_filter :set_service
 
   def index
     if Service.first.blank?
       flash[:notice] = "Setup at least 1 authentication service"
       return redirect_to(services_path) 
     end
-  end
-
-  def form
-    @site = Site.find_by_key(params[:id])
-    @service = @site.services.configured.find_by_auth_type('facebook')
   end
 
   def profile
@@ -31,7 +27,13 @@ protected
   def set_service
     @service = Service.find(:first, :include => [:site], :conditions => {:id => params[:id]}) if params[:id]
   end
-    
+
+  def set_site_and_service
+    if params[:id] && @site = Site.find_by_key(params[:id])
+      @service = @site.services.configured.find_by_auth_type('facebook')
+    end
+  end
+
   def return_to_service_callback(hash)
     if profile = @service.profiles.find_by_identifier(hash[:identifier])
       profile.update_attributes! :json_text => hash.to_json
