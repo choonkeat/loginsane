@@ -3,7 +3,7 @@
 module Auth
   module Twitter
     def twitter_redirect
-      request_token = twitter_get_consumer.get_request_token
+      request_token = twitter_get_consumer.get_request_token(:oauth_callback => callback_url_for(@service))
       session[:request_token_service] = params[:id]
       session[:request_token] = request_token
       redirect_to request_token.authorize_url
@@ -12,7 +12,7 @@ module Auth
     def twitter_callback
       logger.debug "session[:request_token] = #{session[:request_token].inspect}"
       session[:request_token].consumer = twitter_get_consumer
-      access_token = session[:request_token].get_access_token
+      access_token = session[:request_token].get_access_token(:oauth_verifier => params[:oauth_verifier])
       raw    = Hash.from_xml(access_token.get("/account/verify_credentials.xml").body)
       hash = {
         :providerName      => "twitter",
