@@ -1,0 +1,27 @@
+<%= bread_crumb ["All sites", sites_path], [@site.name, site_path(@site)], ["Services", site_services_path(@site)] %>
+
+<h1>Authentication Services for &ldquo;<%= @site.name %>&rdquo;</h1>
+<% if @services.first %>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Key</th>
+      <th>Auth type</th>
+    </tr>
+  <% @services.each do |service| %>
+    <tr>
+      <td><%= link_to h(service.name), edit_site_service_path(@site, service) %></td>
+      <td><%=h service.key %></td>
+      <td><%=h service.auth_type %></td>
+      <td><%= link_to 'Edit', edit_site_service_path(@site, service) %></td>
+      <td><%= link_to 'Destroy', [@site, service], :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+<% end %>
+
+<br />
+
+<%= link_to('Setup Facebook Connect', new_site_service_path(@site, :auth_type => 'facebook')) + " | " unless @site.services.find_by_auth_type('facebook') %>
+<%= link_to('Setup Twitter', new_site_service_path(@site, :auth_type => 'twitter')) + " | " unless @site.services.find_by_auth_type('twitter') %>
+<%= link_to 'Grab embed code', site_path(@site) %>

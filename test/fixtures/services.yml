@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  icon: MyString
+  key: MyString
+  secret: MyString
+  auth_type: MyString
+
+two:
+  name: MyString
+  icon: MyString
+  key: MyString
+  secret: MyString
+  auth_type: MyString

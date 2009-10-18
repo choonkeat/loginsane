@@ -1,0 +1,27 @@
+development:
+  api_key: APIKEY
+  secret_key: SECRETKEY
+  canvas_page_name:
+  callback_url: CALLBACKURL
+  pretty_errors: true
+  set_asset_host_to_callback_url: false
+  tunnel:
+    public_host_username:
+    public_host:
+    public_port: 4007
+    local_port: 3000
+  alternative_keys:
+
+production:
+  api_key: APIKEY
+  secret_key: SECRETKEY
+  canvas_page_name:
+  callback_url: CALLBACKURL
+  pretty_errors: true
+  set_asset_host_to_callback_url: false
+  tunnel:
+    public_host_username:
+    public_host:
+    public_port: 4007
+    local_port: 3000
+  alternative_keys:

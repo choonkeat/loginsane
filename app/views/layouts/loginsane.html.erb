@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Loginsane - Self-hosting, Open Source, Authentication Server</title>
+  <%= javascript_include_tag 'jquery-1.3.2.min.js' %>
+  <%= @service ? "<style>#{@service.site.css}</style>" : stylesheet_link_tag('loginsane') %>
+</head>
+<body>
+<% @service && Facebooker.with_application(@service.key) do %>
+  <%= fb_connect_javascript_tag %>
+  <%= init_fb_connect "XFBML", :js => :jquery %>
+<% end %>
+<%= yield %>
+</body>
+</html>

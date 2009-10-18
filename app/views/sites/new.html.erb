@@ -1,0 +1,65 @@
+<%= bread_crumb ["All sites", sites_path] %>
+
+<h1>New site</h1>
+
+<div class="instructions">
+  <h3>How this will work</h3>
+  <ol>
+    <li>
+      Configure a site here &amp; add services to it (e.g. Facebook Connect, Twitter)
+      </li>
+    <li>
+      Copy your assigned <b>embed code</b> and paste it on your front page
+      </li>
+    <li>
+      The embed code will display a list of login options to visitors on your site
+      </li>
+    <li>
+      A visitor clicking on an option will be taken to the choice provider for authentication (e.g. facebook.com)
+      </li>
+    <li>
+      Once authenticated, the visitor will arrive at your <b>Callback URL</b> with a <b>token</b> parameter
+      <span class="hint">this token is valid for 15 minutes</span>
+      </li>
+    <li>
+      In your <b>Callback URL</b> server code, obtain a <b>Signature</b> by hashing the <b>token</b> with your assigned <b>Secret</b>
+      <br />
+      Like this:
+      <code>Signature = SHA1(token + Secret)</code>
+      <pre><b>Ruby:</b> signature = Digest::SHA1.hexdigest("#{params[:token]}#{SECRET}")
+<b>PHP:</b> $signature = sha1($_GET['token'].$SECRET);
+</pre>
+      </li>
+    <% opts = {:token => 'TOKEN', :signature => 'SIGNATURE', :key => 'KEY'}%>
+    <li>
+      Using the <b>Signature</b>, your assigned <b>Key</b> and the <b>token</b>, you can download the visitor's user profile
+      <pre>
+<b>JSON</b>: <%= actionformat_url('loginsane', 'profile', 'json', opts).gsub('TOKEN', '<b>token</b>').gsub('SIGNATURE', '<b>Signature</b>').gsub('KEY', '<b>Key</b>') %>
+<b>XML</b>: <%= actionformat_url('loginsane', 'profile', 'xml', opts).gsub('TOKEN', '<b>token</b>').gsub('SIGNATURE', '<b>Signature</b>').gsub('KEY', '<b>Key</b>') %></pre>
+      </li>
+    <li>
+      Based on the <b>id</b> in the downloaded profile, you can decide to create a session, login the visitor or register as a new member.
+      <span class="hint">basically, what you do from here onwards is out of scope of this app.</span>
+    </li>
+  </ol>
+</div>
+
+<% form_for(@site) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name, "Name of website" %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :callback_url, "Callback URL" %> <span class="hint">to your server-side code.</span><br />
+    <%= f.text_field :callback_url %>
+  </p>
+  <p>
+    <%= f.label :css %> <span class="hint">to customize the look and feel of your embed.</span><br />
+    <%= f.text_area :css, :style => "height: 11em;" %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>

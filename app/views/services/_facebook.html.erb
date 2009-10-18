@@ -1,0 +1,23 @@
+<div class="instructions">
+  <h3>First, you'll need to</h3>
+  <ol>
+    <li>Create an application at <a href="http://www.facebook.com/developers/createapp.php" target="_blank">facebook.com/developers/createapp.php</a></li>
+    <li>Configure <b>Connect &raquo; Connect URL</b> as <b><%= request.protocol %><%= request.host_with_port %></b></li>
+    <li>Save your application</li>
+    <li>Facebook will provide you with the information we require below</li>
+  </ol>
+</div>
+
+<p>
+  <%= f.label :key, "API Key" %><br />
+  <%= f.text_field :key %>
+</p>
+<p>
+  <%= f.label :secret %><br />
+  <%= f.text_field :secret %>
+</p>
+<%= f.hidden_field :name, :value => 'Facebook' %>
+<%= f.hidden_field :callback_url, :value => callback_url_for(f.object) %>
+<div class="instructions">
+  <p><b>NOTE:</b> you need to restart this server for the settings to take effect</p>
+</div>

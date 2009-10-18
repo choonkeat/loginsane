@@ -1,0 +1,30 @@
+<%= bread_crumb [@site.name, site_path(@site)] %>
+
+<h1>Editing site</h1>
+
+<% form_for(@site) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name, "Name of website" %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :callback_url, "Callback URL" %> <span class="hint">to your server-side code.</span><br />
+    <%= f.text_field :callback_url %>
+  </p>
+  <p>
+    <%= f.label :key %> <span class="hint">leave blank to generate a new key</span><br />
+    <%= f.text_field :key %>
+  </p>
+  <p>
+    <%= f.label :secret %> <span class="hint">leave blank to generate a new secret</span><br />
+    <%= f.text_field :secret %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @site %> |
+<%= link_to 'Back', sites_path %>

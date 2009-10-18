@@ -1,0 +1,13 @@
+<ol>
+<% @site.services.configured.each do |service| %>
+  <li class="<%=h service.auth_type %>"><%= render :partial => service.auth_type, :locals => {:service => service} %>
+<% end %>
+</ol>
+<script type="text/javascript">
+  jQuery('li:not(.facebook) a').live('click', function(event) {
+    event.preventDefault();
+    var anchor = jQuery(event.target).parents('a')[0] || event.target;
+    var child = window.open(anchor.href, 'loginsane','toolbar=0,status=0,width=800,height=600');
+    if (! child) window.top.location.href = anchor.href; // blocked popup
+  });
+</script>

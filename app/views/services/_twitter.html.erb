@@ -1,0 +1,24 @@
+<div class="instructions">
+  <h3>First, you'll need to</h3>
+  <ol>
+    <li>Create an application at <a href="http://twitter.com/apps/new" target="_blank">http://twitter.com/apps/new</a></li>
+    <li>Configure <b>Callback URL</b> as <b><%= callback_url_for(f.object) %></b></li>
+    <li>Check the box for <b>Use Twitter for login</b></li>
+    <li>Save your application</li>
+    <li>Twitter will provide you with the information we require below</li>
+  </ol>
+</div>
+<p>
+  <%= f.label :key, "Consumer Key" %><br />
+  <%= f.text_field :key %>
+</p>
+<p>
+  <%= f.label :secret, "Consumer Secret" %><br />
+  <%= f.text_field :secret %>
+</p>
+<p>
+  <%= f.label :icon, "Login button" %> <span class="hint">it is really better to download, resize &amp; host this yourself</span><br />
+  <%= f.text_field :icon, :value => f.object.icon || 'http://a0.twimg.com/a/1255724203/images/twitter_logo_header.png' %>
+</p>
+<%= f.hidden_field :name, :value => "Twitter" %>
+<%= f.hidden_field :callback_url, :value => callback_url_for(f.object) %>

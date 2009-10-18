@@ -1,0 +1,12 @@
+<%= bread_crumb ["All sites", sites_path], [@site.name, site_path(@site)], ["Services", site_services_path(@site)], [@service.name, edit_site_service_path(@site, @service)] %>
+
+<h1>Configuring <%=h @service.auth_type.capitalize %></h1>
+
+<% form_for([@site, @service]) do |f| %>
+  <%= f.error_messages %>
+  <%= render :partial => @service.auth_type, :locals => {:f => f} %>
+  <p>
+    <%= f.hidden_field :auth_type %>
+    <%= f.submit 'Update' %> or <%= link_to 'Cancel', site_services_path(@site) %>
+  </p>
+<% end %>

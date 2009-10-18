@@ -1,0 +1,50 @@
+<%= bread_crumb ["All sites", sites_path], [@site.name, site_path(@site)] %>
+
+<h1>Site Settings</h1>
+
+<p>
+  <b>Name:</b>
+  <%=h @site.name %>
+</p>
+
+<p>
+  <b>Key:</b>
+  <%=h @site.key %>
+</p>
+
+<p>
+  <b>Secret:</b>
+  <%=h @site.secret %>
+</p>
+
+<p>
+  <b>Callback URL:</b>
+  <%=h @site.callback_url %>
+</p>
+
+<% if @site.services.configured.count < 1 %>
+  <div class="instructions" style="margin-top: 1em;">
+    <h3>Before you get an embed code</h3>
+    <p>Setup at least 1 authentication service to offer your visitors.
+       <%= link_to "Okay, let's do it!", site_services_path(@site) %></p>
+  </div>
+  <%= link_to 'Edit site', edit_site_path(@site) %>
+<% else %>
+    <b>Download profiles at:</b>
+    <% opts = {:token => 'TOKEN', :signature => 'SIGNATURE', :key => @site.key}%>
+    <pre>
+<b>JSON</b>: <%= actionformat_url('loginsane', 'profile', 'json', opts).gsub('TOKEN', '<b>token</b>').gsub('SIGNATURE', '<b>Signature</b>').gsub('KEY', '<b>Key</b>') %>
+<b>XML</b>: <%= actionformat_url('loginsane', 'profile', 'xml', opts).gsub('TOKEN', '<b>token</b>').gsub('SIGNATURE', '<b>Signature</b>').gsub('KEY', '<b>Key</b>') %></pre>
+  <br />
+  <div class="instructions">
+    <h3>Embed code <span class="hint" style="font-weight: normal; font-size: 0.8em;">copy this code and paste it on your front page</span></h3>
+    <%= text_area_tag "embed", embed_code(@site), :style => "overflow: hidden; width: 90%;", :onfocus => "jQuery(this).select();" %>
+    <p class="hint" style="margin-left: 0;">
+      tip: to avoid confusing users, it is best to hide this embed when a user is already signed-in.
+      <br />
+      e.g. <code>{if logged_out} &lt;script embed code ... &gt;&lt;/script&gt; {/if}</code>
+    </p>
+  </div>
+  <br />
+  <%= link_to 'Edit site', edit_site_path(@site) %> | <%= link_to 'Setup authentication services', site_services_path(@site) %>
+<% end %>
