@@ -18,8 +18,8 @@ Inspired by RPX, Loginsane is a host-it-yourself solution. When new services are
 
 7. Using the "Signature", your assigned "Key" and the "token", you can download the visitor's user profile
 
-  JSON: http://local.choonkeat.com:3000/loginsane/profile.json?key=Key&signature=Signature&token=token
-  XML: http://local.choonkeat.com:3000/loginsane/profile.xml?key=Key&signature=Signature&token=token
+  JSON: http://localhost:3000/loginsane/profile.json?key=Key&signature=Signature&token=token
+  XML: http://localhost:3000/loginsane/profile.xml?key=Key&signature=Signature&token=token
 
 8. Based on the "id" in the downloaded profile, you can decide to create a session, login the visitor or register as a new member. Basically, what you do from here onwards is out of scope of this app.
 
@@ -31,11 +31,14 @@ facebooker gem (1.0.54) and oauth gem (0.3.1)
   
 = Install
 
-1. edit "config/database.yml" (leaving it alone defaults to using sqlite db)
-2. sudo gem install facebooker oauth
-3. rake db:migrate
-4. ruby script/server
-5. point your browser to to http://localhost:3000/
+1. Copy "config/database.yml.template" to "config/database.yml" (defaults to sqlite3, edit to customize)
+2. Execute:
+
+  sudo gem install facebooker oauth
+  rake db:migrate
+  ruby script/server
+
+3. Point your browser to to http://localhost:3000/
 
 You would probably like to password protect your loginsane server at some point in time.
 
