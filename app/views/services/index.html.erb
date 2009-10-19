@@ -24,4 +24,5 @@
 
 <%= link_to('Setup Facebook Connect', new_site_service_path(@site, :auth_type => 'facebook')) + " | " unless @site.services.find_by_auth_type('facebook') %>
 <%= link_to('Setup Twitter', new_site_service_path(@site, :auth_type => 'twitter')) + " | " unless @site.services.find_by_auth_type('twitter') %>
+<%= link_to('Setup OpenID Provider', new_site_service_path(@site, :auth_type => 'openid')) %> |
 <%= link_to 'Grab embed code', site_path(@site) %>

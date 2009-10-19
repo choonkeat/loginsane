@@ -1,6 +1,13 @@
+body, p, ol, ul, td, input, textarea { font-family: verdana, arial, helvetica, sans-serif; }
 body, ol, li { padding: 0; margin: 0; }
-ol { list-style: none; }
+ul, ol { list-style: none; padding-left: 0; margin-left: 0; text-indent: 0; }
 li { margin-right: 5px; display: inline; }
 li img.service_icon { border: 0px; width: 89px; height: 21px; }
 li { border-bottom: 2px solid transparent; }
 li:hover { border-color: #eee; }
+label { font-weight: bold; }
+input[type='password'], input[type='text'], input[type='submit'], textarea { border: 1px solid #888; padding: 3px; }
+input:focus, textarea:focus { background-color: lightyellow; }
+#openid_form { width: 350px; padding: 3em; margin: 3em auto; border: 1px solid #999; background-color: #f8f8f8; }
+#other_openid_providers { margin-top: 2em; font-size: 0.9em; }
+.error { color: green; }

@@ -25,16 +25,20 @@ Inspired by RPX, Loginsane is a host-it-yourself solution. When new services are
 
 == Dependencies
 
-facebooker gem (1.0.54) and oauth gem (0.3.6)
+Rubygems
+* facebooker (1.0.54)
+* oauth (0.3.6)
+* ruby-openid (2.1.7)
 
-  sudo gem install facebooker oauth
-  
+open_id_authentication plugin is bundled.
+
 == Install
 
 1. Copy "config/database.yml.template" to "config/database.yml" (defaults to sqlite3, edit to customize)
 2. Execute:
 
-  sudo gem install facebooker oauth
+  sudo gem install facebooker oauth ruby-openid
+  rake open_id_authentication:db:create
   rake db:migrate
   ruby script/server
 
@@ -43,6 +47,8 @@ facebooker gem (1.0.54) and oauth gem (0.3.6)
 NOTE 1: For Facebook connect & Twitter to actually work, you'd need a publicly hostname instead of localhost:3000 (see http://rfacebook.rubyforge.org/tunnel.html )
 
 NOTE 2: You would probably want to protect access to your loginsane server (services and sites controllers) at some point in time.
+
+NOTE 3: Yahoo OpenID issues http://wilkinsonlab.ca/home/node/31
 
 == License
 

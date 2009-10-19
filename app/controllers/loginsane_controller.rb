@@ -3,6 +3,7 @@ class LoginsaneController < ApplicationController
   before_filter :set_site_and_service, :only => [:form, :embed]
   include Auth::Twitter
   include Auth::Facebook
+  include Auth::Openid
 
   def index
     if Service.first.blank?
