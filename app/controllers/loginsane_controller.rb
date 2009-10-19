@@ -35,6 +35,12 @@ protected
   end
 
   def return_to_service_callback(hash)
+    if hash[:email].to_s.blank?
+      # no email, nevermind
+    elsif hash[:photo].blank?
+      # try our luck with gravatar (intentionally request for 404 instead of redirect to default gravatar pic)
+      hash[:photo] = "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(hash[:email].to_s)}.jpg?d=404"
+    end
     if profile = @service.profiles.find_by_identifier(hash[:identifier])
       profile.update_attributes! :json_text => hash.to_json
     else
