@@ -4,13 +4,13 @@ module Auth
   module Facebook
     def self.included(base)
       base.class_eval do
-        around_filter :set_current_facebook_application
-        before_filter :set_p3p_header, :set_facebook_session
+        around_filter :facebook_set_current_application
+        before_filter :facebook_set_p3p_header, :set_facebook_session
         helper_method :facebook_session
       end
     end
 
-    def set_current_facebook_application(&block)
+    def facebook_set_current_application(&block)
       if @service
         Facebooker.with_application(@service.key, &block)
       else
@@ -21,7 +21,7 @@ module Auth
 
     def facebook_callback
       create_facebook_session if facebook_session.blank?
-      return js_redirect_login if facebook_session.blank?
+      return facebook_js_redirect_login if facebook_session.blank?
       logger.debug "facebook_session = #{facebook_session.inspect}"
       logger.debug "facebook_session.user = #{facebook_session.user.inspect}"
       hash = {
@@ -45,12 +45,12 @@ module Auth
         cookies.delete(key) if regexp.match(key)
         regexp
       end
-      return js_redirect_login
+      return facebook_js_redirect_login
     end
 
-    def js_redirect_login
+    def facebook_js_redirect_login
       javascript_code = "<script>window.top.location.href = '#{Facebooker.login_url_base}&fbconnect=true&return_session=false&next=#{URI.escape(callback_url_for(@service))}';</script>"
-      logger.debug "js_redirect_login: #{javascript_code}"
+      logger.debug "facebook_js_redirect_login: #{javascript_code}"
       render :text => javascript_code
     end
 
@@ -63,7 +63,7 @@ module Auth
 
     # regarding iframes, cookies, safari & ie6
     # see http://groups.google.com/group/facebooker/browse_thread/thread/55743ca4b224065e
-    def set_p3p_header
+    def facebook_set_p3p_header
       response.headers['P3P'] = 'CP="CAO PSA OUR"'
     end
   end
