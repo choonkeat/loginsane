@@ -28,7 +28,7 @@ module Auth
         :providerName      => "facebook",
         :identifier        => facebook_session.user.uid,
         :displayName       => facebook_session.user.name,
-        :preferredUsername => facebook_session.user.name && facebook_session.user.name.to_s.gsub(/\W+/, ''),
+        :preferredUsername => facebook_session.user.username || facebook_session.user.name && facebook_session.user.name.to_s.gsub(/\W+/, ''),
         :utcOffsetSeconds  => facebook_session.user.timezone && (facebook_session.user.timezone.to_f * 3600).to_i,
         :url               => facebook_session.user.profile_url,
         :photo             => facebook_session.user.pic_big || facebook_session.user.pic_square || facebook_session.user.pic_small,
