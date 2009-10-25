@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+  before_filter :require_admin_user
   before_filter :set_site
   # GET /services
   # GET /services.xml

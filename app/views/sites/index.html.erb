@@ -8,12 +8,12 @@
     <th>Key</th>
   </tr>
 
-<% @sites.each do |site| %>
+<% @sites.each_with_index do |site, index| %>
   <tr>
     <td><%= link_to h(site.name), site %></td>
     <td><%=h site.key %></td>
-    <td><%= link_to 'Edit', edit_site_path(site) %></td>
-    <td><%= link_to 'Destroy', site, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_site_path(site) unless index == 0 %></td>
+    <td><%= link_to 'Destroy', site, :confirm => 'Are you sure?', :method => :delete unless index == 0 %></td>
   </tr>
 <% end %>
 </table>

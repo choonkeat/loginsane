@@ -1,17 +1,52 @@
 class SitesController < ApplicationController
+  before_filter :require_admin_user, :except => [:login, :logout, :preview]
+
   # GET /sites
   # GET /sites.xml
   def index
     @sites = Site.all
-    if @sites.blank?
-      flash[:notice] = "Let's configure the first website before we proceed"
-      return redirect_to(new_site_path)
-    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @sites }
     end
+  end
+
+  def preview
+    @site = Site.find_by_slug(params[:id])
+  end
+
+  # this callback is specifically only for root site (i.e. Loginsane Control Panel)
+  def login
+    @site = Site.first
+    signature = Digest::SHA1.hexdigest("#{params[:token]}#{@site.secret}")
+    # it would've been cleaner to pull profile like any other website
+    # but i'm afraid folks would run this app as ./script/server initially
+    # and since that is a single-threaded/single-process server, pulling
+    # profile from itself would result in a dead-lock. so instead, we're
+    # retrieving the profile directly via db
+    if false
+      url = "#{request.protocol}#{request.host_with_port}/loginsane/profile.json?key=#{@site.key}&signature=#{signature}&token=#{params[:token]}"
+      json_str = url(open) {|f| f.read }
+      json_obj = JSON.parse(json_str)
+    else
+      profile = Profile.login(params[:token], signature)
+      json_obj = profile && profile.json_object
+    end
+
+    # set the session based on profile info, if any
+    if json_obj
+      flash[:notice] = "Successfully logged in as a super-user"
+      session[:profile_id] = json_obj["id"]
+      session[:profile_name] = json_obj["displayName"] || json_obj["preferredUsername"] || "superuser"
+    end
+    redirect_to sites_path
+  end
+
+  def logout
+    session[:profile_id] = nil
+    session[:profile_name] = nil
+    redirect_to sites_path
   end
 
   # GET /sites/1

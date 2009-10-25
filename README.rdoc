@@ -44,11 +44,12 @@ open_id_authentication plugin is bundled.
 
 3. Point your browser to to http://localhost:3000/
 
-NOTE 1: For Facebook connect & Twitter to actually work, you'd need a publicly hostname instead of localhost:3000 (see http://rfacebook.rubyforge.org/tunnel.html )
+4. You will be prompted to login and create a super-user -- the first user to login is the super-user of the loginsane server, hence reset DB when otherwise. (see ApplicationController#allowed_profile_ids) 
 
-NOTE 2: You would probably want to protect access to your loginsane server (services and sites controllers) at some point in time.
+== Notes
 
-NOTE 3: Yahoo OpenID issues http://wilkinsonlab.ca/home/node/31
+1. For Facebook connect & Twitter to actually work, you'd need a publicly hostname instead of localhost:3000 (see http://rfacebook.rubyforge.org/tunnel.html )
+2. Yahoo OpenID issues http://wilkinsonlab.ca/home/node/31
 
 == License
 

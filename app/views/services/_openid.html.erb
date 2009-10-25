@@ -9,7 +9,7 @@
 <p>
   <%= f.label :icon, "Login button" %>
   <% if params[:icon] %><span class="hint">it is really better to download, resize &amp; host this yourself</span><% end %><br />
-  <%= f.text_field :icon, :value => f.object.icon || params[:icon] %>
+  <%= f.text_field :icon, :value => f.object.icon || params[:icon] || image_path('openid-logo-wordmark.png') %>
 </p>
 <%= f.hidden_field :callback_url, :value => callback_url_for(f.object) %>
 

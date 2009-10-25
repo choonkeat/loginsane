@@ -67,3 +67,6 @@ input:focus, textarea:focus { background-color: lightyellow; }
 th, td { text-align: right; }
 .bread { font-size: 9px; }
 table { width: 90%; }
+.button-to, .button-to div { display: inline; }
+.button-to input { border-width: 0 0 1px 0; background: none; -moz-border-radius: 0; -webkit-border-radius: 0; cursor: pointer; padding: 0; }
+.footer { text-align: center; font-size: 0.8em; }

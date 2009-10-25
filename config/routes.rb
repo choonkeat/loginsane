@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :sites, :path_prefix => 'loginsane' do |site|
+  map.resources :sites, :path_prefix => 'loginsane', :member => 'preview', :collection => {:login => :get, :logout => :post} do |site|
     site.resources :services
   end
 

@@ -37,7 +37,10 @@
 <b>XML</b>: <%= actionformat_url('loginsane', 'profile', 'xml', opts).gsub('TOKEN', '<b>token</b>').gsub('SIGNATURE', '<b>Signature</b>').gsub('KEY', '<b>Key</b>') %></pre>
   <br />
   <div class="instructions">
-    <h3>Embed code <span class="hint" style="font-weight: normal; font-size: 0.8em;">copy this code and paste it on your front page</span></h3>
+    <h3>Embed code <span class="hint" style="font-weight: normal; font-size: 0.8em;">
+      copy this code and paste it on your front page
+      <!-- (<%= link_to "preview", preview_site_path(@site) %>) -->
+    </span></h3>
     <%= text_area_tag "embed", embed_code(@site), :style => "overflow: hidden; width: 90%;", :onfocus => "jQuery(this).select();" %>
     <p class="hint" style="margin-left: 0;">
       tip: to avoid confusing users, it is best to hide this embed when a user is already signed-in.
