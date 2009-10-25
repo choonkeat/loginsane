@@ -20,7 +20,7 @@
       </script>
       <div id="other_openid_providers">
         <% other_services = @service.site.services.configured.find(:all,
-                            :conditions => ["auth_type = ? AND length(key) > 0", @service.auth_type]) %>
+                            :conditions => ["`auth_type` = ? AND length(`key`) > 0", @service.auth_type]) %>
         <% if other_services.first %>
           <p class="hint">Also available:</p>
           <ul>
