@@ -5,17 +5,8 @@ module Auth
     def self.included(base)
       base.class_eval do
         around_filter :facebook_set_current_application
-        before_filter :facebook_set_p3p_header, :set_facebook_session
+        before_filter :facebook_set_p3p_header, :facebook_set_facebook_session
         helper_method :facebook_session
-      end
-    end
-
-    def facebook_set_current_application(&block)
-      if @service
-        Facebooker.with_application(@service.key, &block)
-      else
-        logger.info "no current_facebook_application!"
-        yield
       end
     end
 
@@ -61,10 +52,24 @@ module Auth
       render :action => 'return_to_service_callback', :layout => false
     end
 
+  protected
     # regarding iframes, cookies, safari & ie6
     # see http://groups.google.com/group/facebooker/browse_thread/thread/55743ca4b224065e
     def facebook_set_p3p_header
       response.headers['P3P'] = 'CP="CAO PSA OUR"'
     end
+
+    def facebook_set_current_application(&block)
+      if @service.try(:auth_type) == 'facebook'
+        Facebooker.with_application(@service.key, &block)
+      else
+        yield
+      end
+    end
+
+    def facebook_set_facebook_session
+      set_facebook_session if @service.try(:auth_type) == 'facebook'
+    end
+
   end
 end
