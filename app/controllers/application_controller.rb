@@ -33,6 +33,16 @@ protected
             :auth_type => 'openid', :name => 'Open ID',
             :icon => [ActionController::Base.relative_url_root || "", "images/openid-logo-wordmark.png"].join("/"),
           })
+          root_site.services.create!({
+            :auth_type => 'openid', :name => 'Google',
+            :key => 'https://www.google.com/accounts/o8/id',
+            :icon => [ActionController::Base.relative_url_root || "", "images/google_logo.gif"].join("/"),
+          })
+          root_site.services.create!({
+            :auth_type => 'openid', :name => 'Yahoo',
+            :key => 'http://yahoo.com/',
+            :icon => "http://l.yimg.com/a/i/reg/openid/buttons/14.png",
+          })
         end
       end
       redirect_to preview_site_path(root_site)
