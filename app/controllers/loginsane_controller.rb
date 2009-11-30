@@ -1,6 +1,7 @@
 class LoginsaneController < ApplicationController
   before_filter :set_service, :except => [:form, :embed]
   before_filter :set_site_and_service, :only => [:form, :embed]
+  before_filter :set_return_url_base, :only => [:form, :embed]
   include Auth::Twitter
   include Auth::Facebook
   include Auth::Openid
@@ -35,6 +36,15 @@ protected
     end
   end
 
+  def set_return_url_base
+    return if params[:return_url].blank?
+    return_url_base = Rails.cache.fetch("#{request.remote_ip}.return_url", :expires_in => 1.hour) do
+      uri = URI.parse(params[:return_url])
+      uri.scheme + '://' + uri.host + (uri.port == 80 ? '' : ':' + uri.port)
+    end
+    logger.debug "return_url_base => #{return_url_base.inspect}"
+  end
+
   def return_to_service_callback(hash)
     if hash[:email].to_s.blank?
       # no email, nevermind
@@ -47,9 +57,12 @@ protected
     else
       profile = @service.profiles.create!({ :site_id => @service.site_id, :identifier => hash[:identifier], :json_text => hash.to_json })
     end
-    uri = URI.parse(@service.site.callback_url)
+    return_url_base = Rails.cache.read("#{request.remote_ip}.return_url")
+    Rails.cache.delete("#{request.remote_ip}.return_url")
+    uri = return_url_base ? URI.join(return_url_base.to_s, @service.site.callback_url) : URI.parse(@service.site.callback_url)
     uri.query = [uri.query, "token=#{profile.token}"].reject(&:blank?).join('&')
     @callback_url = uri.to_s
+    logger.debug "Returning to #{@callback_url}"
     render :action => 'return_to_service_callback', :layout => false
   end
 
