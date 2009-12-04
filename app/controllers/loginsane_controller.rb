@@ -40,7 +40,7 @@ protected
     return if params[:return_url].blank?
     return_url_base = Rails.cache.fetch("#{request.remote_ip}.return_url", :expires_in => 1.hour) do
       uri = URI.parse(params[:return_url])
-      uri.scheme + '://' + uri.host + (uri.port == 80 ? '' : ':' + uri.port)
+      uri.scheme + '://' + uri.host + (uri.port == 80 ? '' : ':' + uri.port.to_s)
     end
     logger.debug "return_url_base => #{return_url_base.inspect}"
   end
