@@ -47,3 +47,6 @@ end
 OAuth::Consumer.class_eval do
   def marshal_load(*args); nil; end
 end
+
+# avoid 'Not all elements respond to to_xml' errors when {:key => [:value1, "value2"]}.to_xml
+require 'more_to_xml'
