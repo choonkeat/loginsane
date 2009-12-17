@@ -15,7 +15,7 @@ class LoginsaneController < ApplicationController
   def profile
     if profile = Profile.login(params[:token], params[:signature])
       respond_to do |format|
-        format.xml  { render :xml  => profile.json_object.to_xml(:root => 'profile', :skip_types => true) }
+        format.xml  { render :text => profile.json_object.to_xml(:root => 'profile', :skip_types => true), :content_type => Mime::XML }
         format.json { render :json => profile.json_object.to_json }
       end
     else
