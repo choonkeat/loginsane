@@ -2,7 +2,7 @@ module MoreToXml
   def to_xml(options = {})
     options[:indent] ||= 2;
     options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent]);
-    options[:builder].value self.to_s
+    options[:builder].tag!((options[:root] || "value"), self.to_s)
   end
 end
 
@@ -12,7 +12,7 @@ Symbol.send(:include, MoreToXml) unless :symbol.respond_to?(:to_xml)
 # <?xml version="1.0" encoding="UTF-8"?>
 # <hash>
 #   <key type="array">
-#     <value>value1</value>
-#     <value>value2</value>
+#     <key>value1</key>
+#     <key>value2</key>
 #   </key>
 # </hash>
