@@ -13,7 +13,6 @@
     } else {
       wnd.top.location.href = url;
     }
-    if (opener) window.close();
   })(<%= @callback_url.inspect %>, window.opener);
   </script>
 </head>

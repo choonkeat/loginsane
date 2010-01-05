@@ -3,6 +3,9 @@
   <ol>
     <li>Create an application at <a href="http://www.facebook.com/developers/createapp.php" target="_blank">facebook.com/developers/createapp.php</a></li>
     <li>Configure <b>Connect &raquo; Connect URL</b> as <b><%= request.protocol %><%= request.host_with_port %></b></li>
+    <% if request_base_domain %>
+    <li>Configure <b>Connect &raquo; Base Domain</b> as <b><%= request_base_domain %></b> to enable subdomains</li>
+    <% end %>
     <li>Save your application</li>
     <li>Facebook will provide you with the information we require below</li>
   </ol>

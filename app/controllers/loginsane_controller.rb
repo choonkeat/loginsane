@@ -1,6 +1,6 @@
 class LoginsaneController < ApplicationController
-  before_filter :set_service, :except => [:form, :embed]
-  before_filter :set_site_and_service, :only => [:form, :embed]
+  before_filter :set_service, :except => [:form, :embed, :redirect, :facebook_js]
+  before_filter :set_site_and_service, :only => [:form, :embed, :facebook_js]
   before_filter :set_return_url_base, :only => [:form, :embed]
   include Auth::Twitter
   include Auth::Facebook
@@ -11,6 +11,10 @@ class LoginsaneController < ApplicationController
       flash[:notice] = "Setup at least 1 authentication service"
       return redirect_to(services_path) 
     end
+  end
+
+  def redirect
+    render :layout => false
   end
 
   def profile

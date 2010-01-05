@@ -41,11 +41,24 @@
       copy this code and paste it on your front page
       <!-- (<%= link_to "preview", preview_site_path(@site) %>) -->
     </span></h3>
-    <%= text_area_tag "embed", embed_code(@site), :style => "overflow: hidden; width: 90%;", :onfocus => "jQuery(this).select();" %>
+    <%= text_area_tag "embed", embed_code(@site), :style => "overflow: hidden; width: 90%;", :onclick => "jQuery(this).select();" %>
     <p class="hint" style="margin-left: 0;">
       tip: to avoid confusing users, it is best to hide this embed when a user is already signed-in.
       <br />
       e.g. <code>{if logged_out} &lt;script embed code ... &gt;&lt;/script&gt; {/if}</code>
+    </p>
+  </div>
+  <div class="instructions">
+    <h3>Facebook embed code <span class="hint" style="font-weight: normal; font-size: 0.8em;">
+      copy this code and paste this into pages where you need to use Facebook Connect Javascript
+    </span></h3>
+    <%= text_area_tag "embed", facebook_embed_code(@site), :style => "overflow: hidden; width: 90%;", :onclick => "jQuery(this).select();" %>
+    <p class="hint" style="margin-left: 0;">
+      <% if request_base_domain %>
+      Make sure you have configured <b>Connect &raquo; Base Domain</b> as <b><%= request_base_domain %></b> in Facebook.com<br/>
+      <% end %>
+      Make sure to have a copy of the <b><a href="http://wiki.developers.facebook.com/index.php/Cross_Domain_Communication_Channel">xd_receiver*</a></b> files in your application's web root folder<br/>
+      <em>E.g. http://www.example.com/xd_receiver.html</em>
     </p>
   </div>
   <br />

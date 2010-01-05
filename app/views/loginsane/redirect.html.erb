@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>Loading ...</title>
+    <meta http-equiv="refresh" content="0;url=<%=h params[:url] %>">
+    <style>
+      body { font-family: sans-serif; width: 400px; margin: 2em auto; }
+      p.hint { font-size: 0.8em; color: #555; }
+    </style>
+  </head>
+  <body>
+    <p>
+      Loading ...
+    </p>
+    <p class="hint">
+      If you are not redirected automatically within a
+      few seconds then please <%= link_to "click on this link", params[:url] %>.
+    </p>
+  </body>
+</html>

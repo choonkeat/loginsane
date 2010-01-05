@@ -50,4 +50,13 @@ protected
     end
   end
 
+  # if `request.host` has a subdomain, e.g. "www.example.com", then returns "example.com"
+  # otherwise, nil
+  def request_base_domain
+    if request.host =~ /\.\D+$/ && parts = request.host_with_port.split('.')[-2..-1]
+      parts.join('.')
+    end
+  end
+  helper_method :request_base_domain
+
 end

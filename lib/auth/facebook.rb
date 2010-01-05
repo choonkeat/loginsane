@@ -52,6 +52,23 @@ module Auth
       render :action => 'return_to_service_callback', :layout => false
     end
 
+    # would be better if could reuse 'init_fb_connect' from facebooker lib
+    def facebook_js
+      str = <<-EOM
+      (function($, key, url_base) {
+        function loginsane_facebook_require(jseval, fn) {
+          if (eval(jseval)) { fn(); } else { setTimeout(function() { loginsane_facebook_require(jseval, fn); }, 500); }
+        }
+        $.getScript("http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php", function() {
+          loginsane_facebook_require('window.FB_RequireFeatures', function() {
+            FB_RequireFeatures(["XFBML"], function() { FB.init(key, url_base + '/xd_receiver.html', {}); });
+          });
+        });
+      })(jQuery, #{@service.key.inspect},'');
+      EOM
+      render :js => str, :layout => false
+    end
+
   protected
     # regarding iframes, cookies, safari & ie6
     # see http://groups.google.com/group/facebooker/browse_thread/thread/55743ca4b224065e

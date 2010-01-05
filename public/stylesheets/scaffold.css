@@ -62,7 +62,7 @@ label { font-weight: bold; }
 input[type='password'], input[type='text'], input[type='submit'], textarea { border: 1px solid #888; padding: 3px; }
 input:focus, textarea:focus { background-color: lightyellow; }
 .hint { margin-left: 1em; font-size: 0.9em; color: #999; }
-.instructions { padding: 0.2em 1em; border: 1px solid #ddd; background-color: #fafafa; }
+.instructions { padding: 0.2em 1em; border: 1px solid #ddd; background-color: #fafafa; margin: 1em 0; }
 .instructions, input[type='submit'] { -moz-border-radius: 6px; -webkit-border-radius: 6px; }
 th, td { text-align: right; }
 .bread { font-size: 9px; }
