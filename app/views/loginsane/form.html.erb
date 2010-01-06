@@ -1,5 +1,5 @@
 <ol>
-<% @site.services.configured.each do |service| %>
+<% @site.services.configured.find(:all, :order => "auth_type = 'facebook'").each do |service| %>
   <li class="<%=h service.auth_type %>"><%= render :partial => service.auth_type, :locals => {:service => service} %>
 <% end %>
 </ol>
