@@ -1,5 +1,13 @@
 # prefix all methods with name of this class
 
+# To use stored Profile for OAuth calls
+#
+#   include Auth::Twitter
+#   profile = Profile.last # assuming it was created by a Twitter service
+#   consumer = twitter_get_consumer(profile)
+#   access_token = OAuth::AccessToken.new consumer, profile.json_object['access_token'], profile.json_object['access_secret']
+#   puts access_token.get("/account/verify_credentials.xml").body
+
 module Auth
   module Twitter
     def twitter_redirect
@@ -24,6 +32,8 @@ module Auth
         :photo             => raw['user']['profile_image_url'],
         :location          => raw['user']['location'],
         :raw               => raw,
+        :access_token      => access_token.token,
+        :access_secret     => access_token.secret,
       }
       return_to_service_callback(hash)
     rescue Net::HTTPServerException # Timeout, etc
@@ -31,9 +41,10 @@ module Auth
     end
 
   protected
-    def twitter_get_consumer
-      @config   ||= YAML.load(IO.read(File.join(Rails.root, "config/oauth.yml")))[params[:id]]
+    def twitter_get_consumer(profile = nil)
+      @config   ||= YAML.load(IO.read(File.join(Rails.root, "config/oauth.yml")))[profile ? profile.service_id.to_s : params[:id]]
       @consumer ||= OAuth::Consumer.new @config["consumer_key"], @config["consumer_secret"], {:site => @config["site"] }
     end
+
   end
 end
