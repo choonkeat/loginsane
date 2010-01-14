@@ -57,7 +57,8 @@ module Auth
       str = <<-EOM
       (function($, key, url_base) {
         function loginsane_facebook_require(jseval, fn) {
-          if (eval(jseval)) { fn(); } else { setTimeout(function() { loginsane_facebook_require(jseval, fn); }, 500); }
+          var timeout = setTimeout(function() { loginsane_facebook_require(jseval, fn); }, 500);
+          if (eval(jseval)) { clearTimeout(timeout); fn(); }
         }
         $.getScript("http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php", function() {
           loginsane_facebook_require('window.FB_RequireFeatures', function() {
