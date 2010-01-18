@@ -25,8 +25,8 @@ module Auth
       hash = {
         :providerName      => "twitter",
         :identifier        => raw['user']['id'],
-        :displayName       => raw['user']['screen_name'],
-        :preferredUsername => raw['user']['name'],
+        :displayName       => raw['user']['name'],
+        :preferredUsername => raw['user']['screen_name'],
         :utcOffsetSeconds  => raw['user']['utc_offset'],
         :url               => raw['user']['url'],
         :photo             => raw['user']['profile_image_url'],
