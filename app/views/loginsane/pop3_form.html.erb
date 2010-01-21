@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title><%= @service.site.name %> - OpenID</title>
+  <%= @service ? "<style>#{@service.site.css}</style>" : stylesheet_link_tag('loginsane') %>
+</head>
+  <body>
+    <div id="pop3_form">
+      <p class="error"><%=h flash[:error] %></p>
+      <% form_tag :action => "pop3_callback" do |f| -%>
+        <label for="pop3_username" >Username:</label>
+        <%= text_field_tag :pop3_username %>
+        <br />
+        <label for="pop3_password" >Password:</label>
+        <%= password_field_tag :pop3_password %>
+        <br />
+        <%= hidden_field_tag :pop3_server, params[:pop3_server] %>
+        <%= submit_tag "Login" %>
+      <% end -%>
+      <script>
+        document.getElementById('pop3_username').focus();
+      </script>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<p>
+  <%= f.label :name %><br />
+  <%= f.text_field :name, :value => f.object.name || params[:name] %>
+</p>
+<p>
+  <%= f.label :key, "Mail server" %> <span class="hint">POP3 server, e.g. pop.mailserver.com</span><br />
+  <%= f.text_field :key, :value => f.object.key || params[:key] %>
+</p>
+<p>
+  <%= f.label :icon, "Login button" %>
+  <% if params[:icon] %><span class="hint">it is really better to download, resize &amp; host this yourself</span><% end %><br />
+  <%= f.text_field :icon, :value => f.object.icon || params[:icon] %>
+</p>
+<%= f.hidden_field :callback_url, :value => callback_url_for(f.object) %>
+
+<!-- <div class="instructions">
+  <h3>Common OpenID Providers</h3>
+  <ul>
+    <li>
+      <b>Yahoo</b> OpenID URL <code>http://yahoo.com/</code>, Icon URL <code>http://l.yimg.com/a/i/reg/openid/buttons/14.png</code>
+    </li>
+    <li>
+      <b>Google</b> OpenID URL <code>https://www.google.com/accounts/o8/id</code>
+    </li>
+  </ul>
+</div> -->

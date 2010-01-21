@@ -5,6 +5,7 @@ class LoginsaneController < ApplicationController
   include Auth::Twitter
   include Auth::Facebook
   include Auth::Openid
+  include Auth::POP3
 
   def index
     if Service.first.blank?
