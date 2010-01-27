@@ -6,7 +6,6 @@ module Auth
       base.class_eval do
         # http://wilkinsonlab.ca/home/node/31 (yahoo)
         before_filter :openid_set_xrds_location
-        before_filter :openid_set_openid_identifier
       end
     end
 
@@ -23,7 +22,7 @@ module Auth
           :email             => ["email", "http://axschema.org/contact/email"],
           :url               => ["http://axschema.org/contact/web/default"],
         }
-        authenticate_with_open_id(@service.key, :required => key_maps.values.flatten.uniq) do  |result, identity_url, registration|
+        authenticate_with_open_id(params[:openid_url], :required => key_maps.values.flatten.uniq) do  |result, identity_url, registration|
           if result.successful?
             hash = {:providerName => "openid", :identifier => identity_url, :raw => {:registration => registration.to_json, :params => params.to_json}}
             key_maps.each do |(ourkey, possible_keys)|
@@ -75,10 +74,6 @@ EOS
 
     def openid_set_xrds_location
       response.headers['X-XRDS-Location'] = url_for(:action => "openid_xrds", :id => params[:id], :only_path => false)
-    end
-
-    def openid_set_openid_identifier
-      params[:openid_identifier] = @service.key if @service && (! @service.key.blank?)
     end
 
   end
