@@ -13,7 +13,6 @@
       <td><%= link_to h(service.name), edit_site_service_path(@site, service) %></td>
       <td><%=h service.key %></td>
       <td><%=h service.auth_type %></td>
-      <td><%= link_to 'Edit', edit_site_service_path(@site, service) %></td>
       <td><%= link_to 'Destroy', [@site, service], :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>

@@ -13,14 +13,13 @@
 </p>
 <%= f.hidden_field :callback_url, :value => callback_url_for(f.object) %>
 
-<!-- <div class="instructions">
-  <h3>Common OpenID Providers</h3>
-  <ul>
-    <li>
-      <b>Yahoo</b> OpenID URL <code>http://yahoo.com/</code>, Icon URL <code>http://l.yimg.com/a/i/reg/openid/buttons/14.png</code>
-    </li>
-    <li>
-      <b>Google</b> OpenID URL <code>https://www.google.com/accounts/o8/id</code>
-    </li>
-  </ul>
-</div> -->
+<div class="instructions">
+  <p>
+    If you do not wish to use the site embed (aka multiple-services selector),
+    you may redirect your user to this authentication service directly
+    using the URL below:
+  </p>
+  <p>
+    <code title='triple-click to select the full url'><%=h url_for(:controller => 'loginsane', :action => 'pop3_callback', :id => @service.id, :only_path => false) %></code>
+  </p>
+</div>

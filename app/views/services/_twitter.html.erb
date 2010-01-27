@@ -22,3 +22,14 @@
 </p>
 <%= f.hidden_field :name, :value => "Twitter" %>
 <%= f.hidden_field :callback_url, :value => callback_url_for(f.object) %>
+
+<div class="instructions">
+  <p>
+    If you do not wish to use the site embed (aka multiple-services selector),
+    you may redirect your user to this authentication service directly
+    using the URL below:
+  </p>
+  <p>
+    <code title='triple-click to select the full url'><%=h url_for(:controller => 'loginsane', :action => 'twitter_redirect', :id => @service.id, :only_path => false) %></code>
+  </p>
+</div>

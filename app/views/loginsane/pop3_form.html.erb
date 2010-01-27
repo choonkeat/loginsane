@@ -17,8 +17,8 @@
         <label for="pop3_password" >Password:</label>
         <%= password_field_tag :pop3_password %>
         <br />
-        <%= hidden_field_tag :pop3_server, params[:pop3_server] %>
-        <%= submit_tag "Login" %>
+        <%= hidden_field_tag :pop3_server, @service.key %>
+        <%= submit_tag "Login to #{h(@service.key)}" %>
       <% end -%>
       <script>
         document.getElementById('pop3_username').focus();
