@@ -10,4 +10,5 @@ input[type='password'], input[type='text'], input[type='submit'], textarea { bor
 input:focus, textarea:focus { background-color: lightyellow; }
 #pop3_form, #openid_form { width: 350px; padding: 3em; margin: 3em auto; border: 1px solid #999; background-color: #f8f8f8; }
 #other_openid_providers { margin-top: 2em; font-size: 0.9em; }
-.error { color: green; }
+.error { color: red; }
+.notice { color: green; }

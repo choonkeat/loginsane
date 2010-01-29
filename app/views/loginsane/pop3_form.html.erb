@@ -9,7 +9,8 @@
 </head>
   <body>
     <div id="pop3_form">
-      <p class="error"><%=h flash[:error] %></p>
+      <%= display_flash(:error, flash[:error]) %>
+      <%= display_flash(:notice, params[:notice] || flash[:notice]) %>
       <% form_tag :action => "pop3_callback" do |f| -%>
         <label for="pop3_username" >Username:</label>
         <%= text_field_tag :pop3_username %>
