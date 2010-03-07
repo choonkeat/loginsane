@@ -27,6 +27,15 @@ module Auth
         :email             => facebook_session.user.proxied_email,
         :raw               => ::Facebooker::User::FIELDS.inject({}) {|sum,key| sum.merge(key => facebook_session.user.send(key)) },
       }
+      if not (@service.blank? || @service.option.blank?)
+        fields_symbols = @service.option.to_s.split(/\s*,\s*/).collect(&:to_sym)
+        facebook_session.post("facebook.users.getInfo", :uids => facebook_session.user.uid, :fields => fields_symbols) do |users|
+          users.each do |info|
+            logger.warn "info = #{info.inspect}"
+            info.each {|key, value| hash[key.to_sym] = value if not value.blank? }
+          end
+        end
+      end
       return_to_service_callback(hash)
     rescue Facebooker::Session::SessionExpired
       logger.warn $!; logger.warn $!.backtrace.first
@@ -54,6 +63,11 @@ module Auth
 
     # would be better if could reuse 'init_fb_connect' from facebooker lib
     def facebook_js
+      if @service.blank? || @service.option.blank?
+        js_options = '{}'
+      else
+        js_options = "{ permsToRequestOnConnect: '#{@service.option}' }"
+      end
       str = <<-EOM
       (function($, key, url_base) {
         function loginsane_facebook_require(jseval, fn) {
@@ -62,7 +76,7 @@ module Auth
         }
         $.getScript("http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php", function() {
           loginsane_facebook_require('window.FB_RequireFeatures', function() {
-            FB_RequireFeatures(["XFBML"], function() { FB.init(key, url_base + '/xd_receiver.html', {}); });
+            FB_RequireFeatures(["XFBML"], function() { FB.init(key, url_base + '/xd_receiver.html', #{js_options}); });
           });
         });
       })(jQuery, #{@service.key.inspect},'');

@@ -6,6 +6,7 @@
     <% if request_base_domain %>
     <li>Configure <b>Connect &raquo; Base Domain</b> as <b><%= request_base_domain %></b> to enable subdomains</li>
     <% end %>
+    <li>Configure <b>Advanced &raquo; Email Domain</b> if you are requiring users to provide their email address</li>
     <li>Save your application</li>
     <li>Facebook will provide you with the information we require below</li>
   </ol>
@@ -18,6 +19,9 @@
 <p>
   <%= f.label :secret %><br />
   <%= f.text_field :secret %>
+</p>
+<p>
+  <%= f.check_box :option, {}, 'email', '' %> <%= f.label :option, "Require users to provide their email address?" %>
 </p>
 <%= f.hidden_field :name, :value => 'Facebook' %>
 <%= f.hidden_field :callback_url, :value => callback_url_for(f.object) %>

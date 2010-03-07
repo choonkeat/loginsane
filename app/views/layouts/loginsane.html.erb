@@ -10,7 +10,8 @@
 </head>
 <body>
 <%= fb_connect_javascript_tag %>
-<%= init_fb_connect "XFBML", :js => :jquery %>
+<%= init_fb_connect "XFBML", :js => :jquery, :app_settings => ((@service.blank? || @service.option.blank?) ?
+    "{}" : "{ permsToRequestOnConnect: '#{@service.option}' }") %>
 <%= yield %>
 </body>
 </html>
