@@ -70,6 +70,11 @@ module Auth
       end
       str = <<-EOM
       (function($, key, url_base) {
+        jQuery(document.body).ready(function() {
+          if (! $('#FB_HiddenContainer')[0]) {
+            jQuery('<div id="FB_HiddenContainer"  style="position:absolute; top:-10000px; width:0px; height:0px;" ></div>').appendTo(document.body);
+          }
+        });
         function loginsane_facebook_require(jseval, fn) {
           var timeout = setTimeout(function() { loginsane_facebook_require(jseval, fn); }, 500);
           if (eval(jseval)) { clearTimeout(timeout); fn(); }
