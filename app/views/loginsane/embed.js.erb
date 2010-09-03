@@ -4,6 +4,8 @@
   iframe.id = <%= (params[:element_id] || "loginsane_frame").inspect %> + unique;
   iframe.frameBorder = <%= params[:frameborder].to_i %>;
   iframe.scrolling = "no";
+  iframe.allowTransparency = true; /* IE only */
+  iframe.style.backgroundColor = "transparent";
   iframe.src = <%= url_for(:action => "form", :id => params[:id], :only_path => false, :return_url => request.referer || "RETURN_URL").inspect %>.replace('RETURN_URL', window.location);
   iframe.width = <%= (params[:width] || '300px').inspect %>;
   iframe.height = <%= (params[:height] || '300px').inspect %>;
