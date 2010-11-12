@@ -11,10 +11,10 @@
     if (child) {
       window.redirect_to = function(url) {
         child.close();
-        window.top.location.href = url;
+        setTimeout(function() { top.location.replace(url); }, 0); // setTimeout workaround for Opera security
       }
     } else {
-      window.top.location.href = anchor.href; // blocked popup
+      setTimeout(function() { top.location.replace(anchor.href); }, 0); // blocked popup
     }
   });
 </script>
