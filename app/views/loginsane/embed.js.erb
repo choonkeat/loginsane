@@ -9,5 +9,7 @@
   iframe.src = <%= url_for(:action => "form", :id => params[:id], :only_path => false, :return_url => request.referer || "RETURN_URL").inspect %>.replace('RETURN_URL', window.location);
   iframe.width = <%= (params[:width] || '300px').inspect %>;
   iframe.height = <%= (params[:height] || '300px').inspect %>;
+  var gif = document.getElementById('loginsane-loading-gif');
+  if (gif) iframe.onload = function() { gif.parentNode.removeChild(gif); }
   document.getElementById("<%= params[:element_id] || "loginsane_frame" %>" + unique).appendChild(iframe);
 })(<%= "#{rand(999)}#{Time.now.to_i}".inspect %>);
