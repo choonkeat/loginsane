@@ -1,7 +1,14 @@
-(function(unique) {
-  document.write('<div id="<%= params[:element_id] || "loginsane_frame" %>' + unique + '"></div>');
+(function(unique, gif, div) {
+  if (gif && gif.parentNode && gif.parentNode.insertBefore) {
+    div = document.createElement('div');
+    div.id = unique;
+    gif.parentNode.insertBefore(div, gif);
+  } else {
+    document.write('<div id="' + unique + '"></div>');
+    div = document.getElementById(unique);
+  }
   var iframe = document.createElement('iframe');
-  iframe.id = <%= (params[:element_id] || "loginsane_frame").inspect %> + unique;
+  iframe.id = unique + 'iframe';
   iframe.frameBorder = <%= params[:frameborder].to_i %>;
   iframe.scrolling = "no";
   iframe.allowTransparency = true; /* IE only */
@@ -9,7 +16,6 @@
   iframe.src = <%= url_for(:action => "form", :id => params[:id], :only_path => false, :return_url => request.referer || "RETURN_URL").inspect %>.replace('RETURN_URL', window.location);
   iframe.width = <%= (params[:width] || '300px').inspect %>;
   iframe.height = <%= (params[:height] || '300px').inspect %>;
-  var gif = document.getElementById('loginsane-loading-gif');
   if (gif) iframe.onload = function() { gif.parentNode.removeChild(gif); }
-  document.getElementById("<%= params[:element_id] || "loginsane_frame" %>" + unique).appendChild(iframe);
-})(<%= "#{rand(999)}#{Time.now.to_i}".inspect %>);
+  div.appendChild(iframe);
+})(<%= "#{params[:element_id] || "loginsane_frame"}-#{rand(999)}#{Time.now.to_i}".inspect %>, document.getElementById('loginsane-loading-gif'));

@@ -1,15 +1,14 @@
 module ServicesHelper
   def embed_code(site)
-    render(:partial => '/services/embed') +
     javascript_include_tag(actionidformat_url('loginsane', 'embed', site.key, 'js', {
       :width => '300px',
       :height => '200px',
       :frameborder => 0,
-    }))
+    })) +
+    render(:partial => '/services/embed')
   end
 
   def facebook_embed_code(site)
-    render(:partial => '/services/embed') +
     javascript_include_tag(actionidformat_url('loginsane', 'facebook_js', site.key, 'js'))
   end
 end
