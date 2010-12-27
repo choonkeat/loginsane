@@ -16,16 +16,41 @@ Inspired by RPX, Loginsane is a host-it-yourself solution. When new services are
   Ruby: signature = Digest::SHA1.hexdigest("#{params[:token]}#{SECRET}")
   PHP: $signature = sha1($_GET['token'].$SECRET);
 
-7. Using the "Signature", your assigned "Key" and the "token", you can download the visitor's user profile
+7. Using the "Signature", your assigned "Key" and the "token", you can download the visitor's user profile (see "User Info" below)
 
   JSON: http://localhost:3000/loginsane/profile.json?key=Key&signature=Signature&token=token
   XML: http://localhost:3000/loginsane/profile.xml?key=Key&signature=Signature&token=token
 
 8. Based on the "id" in the downloaded profile, you can decide to create a session, login the visitor or register as a new member. Basically, what you do from here onwards is out of scope of this app.
 
+NOTE: The "id" value uniquely identifies a user within the database of a loginsane server. This value is not portable (unless the database is replicated). A more portable identifier would be the combination of "providerName" with "identifier" into 1 x single string id (e.g. "twitter/1234", "facebook/1234", etc)
+
+== User Info
+
+This section lists the attributes that you can retrieve from a user profile (see "Step 7" above)
+
+=== Common attributes across all services
+
+  providerName - name of the 3rd party service, e.g. 'twitter', 'facebook', 'openid'
+  identifier - unique identifier of the user within the 3rd party service.
+  preferredUsername - the guesstimated username you should give to this user (based on his username on the 3rd party service)
+  displayName - the name most suitable for display in a greeting message (usually real name, or nickname, sometimes username)
+  raw - this contain raw information of this user given by the 3rd party service.
+
+=== Other attributes
+
+  access_secret - for accessing oauth resources
+  access_token - for accessing oauth resources
+  email
+  location
+  photo
+  url
+  utcOffsetSeconds - useful to determine timezone preference of a user
+
 == Dependencies
 
 Rubygems
+* rails (2.3.4)
 * facebooker (1.0.54)
 * oauth (0.3.6)
 * ruby-openid (2.1.7)

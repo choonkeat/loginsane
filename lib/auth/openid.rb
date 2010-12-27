@@ -14,6 +14,7 @@ module Auth
     def openid_callback
       if using_open_id?
         key_maps = {
+          :providerName => "openid",
           # http://www.axschema.org/types
           :preferredUsername => ["nickname", "http://axschema.org/namePerson/friendly", "email", "http://axschema.org/contact/email"],
           :displayName       => ["fullname", "http://axschema.org/namePerson", ["http://axschema.org/namePerson/first", "http://axschema.org/namePerson/last"]],
@@ -24,7 +25,10 @@ module Auth
         }
         authenticate_with_open_id(params[:openid_url], :required => key_maps.values.flatten.uniq) do  |result, identity_url, registration|
           if result.successful?
-            hash = {:providerName => "openid", :identifier => identity_url, :raw => {:registration => registration.to_json, :params => params.to_json}}
+            hash = {
+              :identifier => identity_url,
+              :raw => {:registration => registration.to_json, :params => params.to_json},
+            }
             key_maps.each do |(ourkey, possible_keys)|
               possible_keys.each do |key|
                 hash[ourkey].blank? && hash[ourkey] = case key
